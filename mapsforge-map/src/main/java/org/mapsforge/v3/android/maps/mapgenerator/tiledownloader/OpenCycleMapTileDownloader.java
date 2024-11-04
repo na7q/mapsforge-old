@@ -20,46 +20,52 @@ import org.mapsforge.v3.core.Tile;
  * A MapGenerator that downloads tiles from the OpenCycleMap server.
  */
 public class OpenCycleMapTileDownloader extends TileDownloader {
-	private static final String HOST_NAME = "tile.opencyclemap.org";
-	private static final String PROTOCOL = "http";
-	private static final byte ZOOM_MAX = 18;
+    private static final String HOST_NAME = "tile.opencyclemap.org";
+    private static final String PROTOCOL = "http";
+    private static final byte ZOOM_MAX = 18;
 
-	private final StringBuilder stringBuilder;
+    private final StringBuilder stringBuilder;
 
-	/**
-	 * Constructs a new OpenCycleMapTileDownloader.
-	 */
-	public OpenCycleMapTileDownloader() {
-		super();
-		this.stringBuilder = new StringBuilder();
-	}
+    /**
+     * Constructs a new OpenCycleMapTileDownloader.
+     */
+    public OpenCycleMapTileDownloader() {
+        super();
+        this.stringBuilder = new StringBuilder();
+    }
 
-	@Override
-	public String getHostName() {
-		return HOST_NAME;
-	}
+    @Override
+    public String getHostName() {
+        return HOST_NAME;
+    }
 
-	@Override
-	public String getProtocol() {
-		return PROTOCOL;
-	}
+    @Override
+    public String getProtocol() {
+        return PROTOCOL;
+    }
 
-	@Override
-	public String getTilePath(Tile tile) {
-		this.stringBuilder.setLength(0);
-		this.stringBuilder.append("/cycle/");
-		this.stringBuilder.append(tile.zoomLevel);
-		this.stringBuilder.append('/');
-		this.stringBuilder.append(tile.tileX);
-		this.stringBuilder.append('/');
-		this.stringBuilder.append(tile.tileY);
-		this.stringBuilder.append(".png");
+    @Override
+    public String getTilePath(Tile tile) {
+        this.stringBuilder.setLength(0);
+        this.stringBuilder.append("/cycle/");
+        this.stringBuilder.append(tile.zoomLevel);
+        this.stringBuilder.append('/');
+        this.stringBuilder.append(tile.tileX);
+        this.stringBuilder.append('/');
+        this.stringBuilder.append(tile.tileY);
+        this.stringBuilder.append(".png");
 
-		return this.stringBuilder.toString();
-	}
+        return this.stringBuilder.toString();
+    }
 
-	@Override
-	public byte getZoomLevelMax() {
-		return ZOOM_MAX;
-	}
+    @Override
+    public byte getZoomLevelMax() {
+        return ZOOM_MAX;
+    }
+
+    // Implement the getPort method
+    @Override
+    public int getPort() {
+        return 80; // Use the default port for HTTP.
+    }
 }

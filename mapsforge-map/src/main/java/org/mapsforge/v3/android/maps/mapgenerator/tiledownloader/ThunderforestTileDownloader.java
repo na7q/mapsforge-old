@@ -20,55 +20,61 @@ import org.mapsforge.v3.core.Tile;
  * A MapGenerator that downloads tiles from the Thunderforest (OpenCycleMap) server.
  */
 public class ThunderforestTileDownloader extends TileDownloader {
-	private static final String HOST_NAME = "tile.thunderforest.com";
-	private static final String PROTOCOL = "https";
-	private static final byte ZOOM_MAX = 22;
+    private static final String HOST_NAME = "tile.thunderforest.com";
+    private static final String PROTOCOL = "https";
+    private static final byte ZOOM_MAX = 22;
 
-	private String apiKey = null;
-	private final StringBuilder stringBuilder;
+    private String apiKey = null;
+    private final StringBuilder stringBuilder;
 
-	/**
-	 * Constructs a new ThunderforestTileDownloader.
-	 */
-	public ThunderforestTileDownloader() {
-		super();
-		this.stringBuilder = new StringBuilder();
-	}
+    /**
+     * Constructs a new ThunderforestTileDownloader.
+     */
+    public ThunderforestTileDownloader() {
+        super();
+        this.stringBuilder = new StringBuilder();
+    }
 
-	@Override
-	public String getHostName() {
-		return HOST_NAME;
-	}
+    @Override
+    public String getHostName() {
+        return HOST_NAME;
+    }
 
-	@Override
-	public String getProtocol() {
-		return PROTOCOL;
-	}
+    @Override
+    public String getProtocol() {
+        return PROTOCOL;
+    }
 
-	@Override
-	public String getTilePath(Tile tile) {
-		this.stringBuilder.setLength(0);
-		this.stringBuilder.append("/cycle/");
-		this.stringBuilder.append(tile.zoomLevel);
-		this.stringBuilder.append('/');
-		this.stringBuilder.append(tile.tileX);
-		this.stringBuilder.append('/');
-		this.stringBuilder.append(tile.tileY);
-		this.stringBuilder.append(".png");
-		if (apiKey != null && apiKey.length() > 0) {
-			this.stringBuilder.append("?apikey=");
-			this.stringBuilder.append(apiKey);
-		}
+    @Override
+    public String getTilePath(Tile tile) {
+        this.stringBuilder.setLength(0);
+        this.stringBuilder.append("/cycle/");
+        this.stringBuilder.append(tile.zoomLevel);
+        this.stringBuilder.append('/');
+        this.stringBuilder.append(tile.tileX);
+        this.stringBuilder.append('/');
+        this.stringBuilder.append(tile.tileY);
+        this.stringBuilder.append(".png");
+        if (apiKey != null && apiKey.length() > 0) {
+            this.stringBuilder.append("?apikey=");
+            this.stringBuilder.append(apiKey);
+        }
 
-		return this.stringBuilder.toString();
-	}
+        return this.stringBuilder.toString();
+    }
 
-	public void setApiKey(final String apiKey) {
-		this.apiKey = apiKey;
-	}
+    public void setApiKey(final String apiKey) {
+        this.apiKey = apiKey;
+    }
 
-	@Override
-	public byte getZoomLevelMax() {
-		return ZOOM_MAX;
-	}
+    @Override
+    public byte getZoomLevelMax() {
+        return ZOOM_MAX;
+    }
+
+    // Implement the getPort method
+    @Override
+    public int getPort() {
+        return 443; // Use the default port for HTTPS.
+    }
 }

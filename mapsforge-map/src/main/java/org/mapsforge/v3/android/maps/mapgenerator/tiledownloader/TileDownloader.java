@@ -57,9 +57,14 @@ public abstract class TileDownloader implements MapGenerator {
 	public final boolean executeJob(MapGeneratorJob mapGeneratorJob, Bitmap bitmap) {
 		try {
 			Tile tile = mapGeneratorJob.tile;
-			URL url = new URL(getProtocol(), getHostName(), getTilePath(tile));
+			int port = getPort();
+			// Use the default ports if port is -1
+			if (port == -1) {
+				port = "https".equals(getProtocol()) ? 443 : 80; // Use default ports for HTTPS and HTTP
+			}
+			URL url = new URL(getProtocol(), getHostName(), port, getTilePath(tile));
 			URLConnection urlConnection = url.openConnection();
-			if(getUserAgent() != null) {
+			if (getUserAgent() != null) {
 				urlConnection.setRequestProperty("User-Agent", getUserAgent());
 			}
 			InputStream inputStream = urlConnection.getInputStream();
@@ -96,6 +101,12 @@ public abstract class TileDownloader implements MapGenerator {
 	 * @return the protocol which is used to connect to the server.
 	 */
 	public abstract String getProtocol();
+
+	/**
+	 * @return the port number of the tile download server. 
+	 * Default is -1, which indicates to use the default port for the protocol (80 for http and 443 for https).
+	 */
+	public abstract int getPort();
 
 	@Override
 	public final GeoPoint getStartPoint() {
