@@ -26,6 +26,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.util.Log;
 
 /**
  * A FrameBuffer uses two separate memory buffers to display the current and build up the next frame.
@@ -98,7 +99,13 @@ public class FrameBuffer {
 		// draw the tile bitmap at the correct position
 		float left = (float) (tile.getPixelX() - pixelLeft);
 		float top = (float) (tile.getPixelY() - pixelTop);
-		this.mapViewCanvas.drawBitmap(bitmap, left, top, null);
+		if (bitmap != null) {
+			this.mapViewCanvas.drawBitmap(bitmap, left, top, null);
+		} else {
+			// Log or handle the error
+			Log.e("FrameBuffer", "Bitmap is null!");
+		}
+				
 		return true;
 	}
 
