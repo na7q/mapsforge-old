@@ -65,7 +65,7 @@ public abstract class TileDownloader implements MapGenerator {
 			Tile tile = mapGeneratorJob.tile;
 
 			// Check if host, protocol, or port are null
-			if (getHostName() == null || getProtocol() == null || getPort() == -1) {
+			if (getProtocol() == null || getPort() == -1) {
 				// If host, protocol, or port are null, use MBTiles method
 				boolean success = getTileFromMBTiles(tile, bitmap);
 
@@ -140,8 +140,8 @@ public abstract class TileDownloader implements MapGenerator {
 	public boolean getTileFromMBTiles(Tile tile, Bitmap bitmap) {
 		SQLiteDatabase database = null;
 
-		// Hardcoded path to the MBTiles file
-		String mbtilesFilePath = "/sdcard/.OSM/map.mbtiles";
+		// Get the path to the MBTiles file dynamically using getHostName()
+		String mbtilesFilePath = getHostName();  // Assuming getHostName() returns the full path to the MBTiles file
 
 		try {
 			// Generate the tile path based on the tile's zoom, x, and y
